@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    function get(Image $image)
+    public function get(Image $image)
     {
         return response()->file(Storage::disk('public')->path($image->path));
     }
 
-    function add(Request $request)
+    public function add(Request $request)
     {
         $file = $request->file('file');
         $fileName = uniqid('file_', true) . '.' . $file->getClientOriginalExtension() . 'webp';

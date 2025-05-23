@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
                 'image_id' => $image->id,
                 'title' => $faker->title(),
                 'description' => $faker->text(200),
-                'price' => $faker->numberBetween(1000,10000),
+                'price' => $faker->numberBetween(1000, 10000),
             ]);
         }
         $inquiry = \App\Models\Inquiry::create([
@@ -59,10 +59,12 @@ class DatabaseSeeder extends Seeder
         $chat = \App\Models\Chat::create([
             'user_id' => $user->id,
         ]);
-        \App\Models\Massage::create([
-            'user_id' => $user->id,
-            'chat_id' => $chat->id,
-            'content' => $inquiry->message,
-        ]);
+        for ($i = 0; $i < 5; $i++) {
+            \App\Models\Massage::create([
+                'user_id' => $user->id,
+                'chat_id' => $chat->id,
+                'content' => $faker->text(25),
+            ]);
+        }
     }
 }
