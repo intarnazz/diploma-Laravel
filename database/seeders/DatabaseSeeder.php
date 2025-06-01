@@ -57,10 +57,10 @@ class DatabaseSeeder extends Seeder
             'company' => $faker->company(),
             'message' => 'помогите помогите',
         ]);
-        $chat = \App\Models\Chat::create([
-            'user_id' => $user->id,
-        ]);
         for ($i = 0; $i < 5; $i++) {
+            $chat = \App\Models\Chat::create([
+                'user_id' => $user->id,
+            ]);
             \App\Models\Massage::create([
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
