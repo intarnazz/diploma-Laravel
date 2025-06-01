@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Chat extends Model
 {
     protected $guarded = ['id'];
-    protected $with = ['user', 'latestMassage'];
+    protected $with = ['user'];
 
     public function user()
     {
@@ -20,9 +20,15 @@ class Chat extends Model
     {
         return $this->hasMany(Massage::class);
     }
+
     public function latestMassage()
     {
         return $this->hasOne(Massage::class)->latest('id');
+    }
+
+    public static function add()
+    {
+        return Chat::create(['user_id' => Auth::id()]);
     }
 
     public static function pagin(Request $request)
@@ -30,6 +36,7 @@ class Chat extends Model
         $limit = $request->header('limit') ?? 3;
         $offset = $request->header('offset') ?? 0;
         $data = self::where('user_id', Auth::id())
+            ->with(['latestMassage'])
             ->offset($offset)
             ->limit($limit)
             ->get();

@@ -17,9 +17,6 @@ Route::prefix('/inquiry')->group(function () {
     Route::get('/{inquiry}', [InquiryController::class, 'get']);
     Route::get('/', [InquiryController::class, 'all']);
 });
-Route::prefix('/massage')->group(function () {
-    Route::get('/{chat_id}', [MassageController::class, 'all']);
-});
 Route::prefix('/portfolio')->group(function () {
     Route::get('/{portfolio}', [PortfolioController::class, 'get']);
     Route::get('/', [PortfolioController::class, 'all']);
@@ -31,9 +28,14 @@ Route::prefix('/service')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/logout', [UserController::class, 'logout']);
+
     Route::prefix('/chat')->group(function () {
-        Route::get('/{chat}', [ChatController::class, 'get']);
+//        Route::get('/{chat}', [ChatController::class, 'get']);
         Route::get('/', [ChatController::class, 'all']);
+    });
+    Route::prefix('/massage')->group(function () {
+        Route::get('/{chat_id}', [MassageController::class, 'all']);
+        Route::post('/', [MassageController::class, 'add']);
     });
 });
 
