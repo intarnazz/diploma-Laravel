@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'user',
             'email' => 'user@gmail.com',
             'phone' => $faker->phoneNumber(),
+            'company' => $faker->company(),
             'password' => 'user',
         ]);
 

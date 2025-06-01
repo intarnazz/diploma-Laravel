@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
@@ -41,6 +42,16 @@ class UserController extends Controller
             "success" => true,
             "message" => "Success",
             "token" => $user->api_token
+        ]);
+    }
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return response([
+            "success" => true,
+            "message" => "Success",
+            "user" => $user
         ]);
     }
 

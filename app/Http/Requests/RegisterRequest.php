@@ -25,6 +25,7 @@ class RegisterRequest extends FormRequest
             "email" => "required|email|unique:users",
             "name" => "required",
             "phone" => "required",
+            "company" => "required",
             "password" => "required",
         ];
     }
