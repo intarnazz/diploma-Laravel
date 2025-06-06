@@ -17,8 +17,8 @@ class Portfolio extends Model
 
     public static function pagin(Request $request)
     {
-        $limit = $request->limit ?? 4;
-        $offset = $request->offset ?? 0;
+        $limit = $request->header('limit') ?? 4;
+        $offset = $request->header('offset') ?? 0;
 
         $data = self::offset($offset)
             ->limit($limit)
