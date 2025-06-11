@@ -33,13 +33,18 @@ class Chat extends Model
 
     public static function pagin(Request $request)
     {
+        $user = Auth::user();
+        $q = $user->role === 'admin'
+            ? self::query()
+            : self::where('user_id', $user->id);
+
+        $q = $q->with('latestMassage')
+            ->orderByDesc('created_at')
+            ->limit($limit = $request->header('limit', 20))
+            ->offset($offset = $request->header('offset', 0));
+
         return [
-            ($q = self::where('user_id', Auth::id()))
-                ->with('latestMassage')
-                ->orderByDesc('created_at')
-                ->limit($limit = $request->header('limit', 3))
-                ->offset($offset = $request->header('offset', 0))
-                ->get(),
+            $q->get(),
             [$limit, $offset, (clone $q)->count()]
         ];
     }

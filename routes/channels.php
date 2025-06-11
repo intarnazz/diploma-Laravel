@@ -18,6 +18,15 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('eve-channel.{id}', function ($user, $id) {
-    return (int)$user->id === (int)$id;
+    return (int)$user->id === (int)$id || $user->role === 'admin';
 });
 
+Broadcast::channel('chat.{chatId}', function ($user, $chatId) {
+    $chat = \App\Models\Chat::find($chatId);
+
+    // Если чат существует и пользователь — владелец или админ
+    return $chat && (
+            $chat->user_id === $user->id ||
+            $user->role === 'admin'
+        );
+});

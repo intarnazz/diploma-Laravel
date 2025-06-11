@@ -9,13 +9,13 @@ Route::get('/', function () {
 });
 
 Route::get('/broadcast', function () {
-    $user = \App\Models\User::find(3);
+    $user = \App\Models\User::find(1);
     Hello::dispatch();
-    return 'sent ' . $user->login;
+    return 'sent ' . $user->name;
 });
 
 Route::get('/broadcast-private',function(){
-    $user = App\Models\User::find(2);
+    $user = App\Models\User::find(1);
     broadcast(new PrivateEve($user));
     return "Event has been sent!";
 });

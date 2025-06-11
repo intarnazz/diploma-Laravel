@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\ChatMessageSent;
+use App\Events\PrivateEve;
 use App\Http\Requests\MassageRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -30,6 +32,12 @@ class Massage extends Model
         }
         $request['user_id'] = Auth::id();
         $data = Massage::create($request);
+        event(new ChatMessageSent(
+            $request['content'],
+            Auth::id(),
+            $request['chat_id']
+        ));
+
         return $data;
     }
 
