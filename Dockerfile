@@ -1,5 +1,5 @@
 # Используем официальный образ PHP с поддержкой FPM
-FROM php:8.2-fpm
+FROM php:8.1-fpm
 
 # Устанавливаем необходимые пакеты и расширения
 RUN apt-get update && apt-get install -y \
@@ -23,6 +23,8 @@ WORKDIR /var/www
 
 # Копируем только файлы composer для кеширования зависимостей
 COPY composer.json composer.lock /var/www/
+
+RUN composer update --no-dev --no-interaction --prefer-dist --no-ansi --no-scripts
 
 # Устанавливаем зависимости Composer (используем кеш)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts --no-progress --no-ansi

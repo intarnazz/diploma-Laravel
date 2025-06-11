@@ -1,13 +1,10 @@
 version: '3.8'
 
-#  docker-compose exec --user=root app bash
-#  chown -R www-data:www-data /var/www
-
 services:
-    app:
+    app8.1:
         build:
             context: .
-        container_name: diploma
+        container_name: diploma8.1
         working_dir: /var/www
         volumes:
             - app-data:/var/www
@@ -17,6 +14,8 @@ services:
             - ./resources:/var/www/resources
             - ./routes:/var/www/routes
             - ./database:/var/www/database
+        ports:
+            - "6001:6001"
         networks:
             - app-network
 
@@ -32,7 +31,7 @@ services:
         networks:
             - app-network
         depends_on:
-            - app
+            - app8.1
 
     db:
         image: mysql:5.7

@@ -9,6 +9,9 @@ use App\Http\Controllers\MassageController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::routes(['middleware' => ['auth:api']]);
 
 Route::post('/authorization', [UserController::class, 'login'])->name('login');
 Route::post('/registration', [UserController::class, 'reg']);
@@ -26,6 +29,7 @@ Route::prefix('/service')->group(function () {
     Route::get('/', [ServiceController::class, 'all']);
 });
 Route::middleware('auth:api')->group(function () {
+//    Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/logout', [UserController::class, 'logout']);
 

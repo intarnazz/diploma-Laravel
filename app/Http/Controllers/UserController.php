@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PrivateEve;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
@@ -44,6 +45,7 @@ class UserController extends Controller
             "token" => $user->api_token
         ]);
     }
+
     public function profile()
     {
         $user = Auth::user();
