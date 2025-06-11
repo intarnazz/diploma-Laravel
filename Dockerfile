@@ -1,45 +1,24 @@
-# Используем официальный образ PHP с поддержкой FPM
 FROM php:8.1-fpm
 
-# Устанавливаем необходимые пакеты и расширения
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
+    git unzip curl libpng-dev libjpeg-dev libfreetype6-dev supervisor \
     && docker-php-ext-configure gd \
         --with-freetype=/usr/include/ \
         --with-jpeg=/usr/include/ \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install pdo_mysql
+    && docker-php-ext-install gd pdo_mysql
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Устанавливаем рабочую директорию
 WORKDIR /var/www
 
-# Копируем только файлы composer для кеширования зависимостей
-COPY composer.json composer.lock /var/www/
-
-RUN composer update --no-dev --no-interaction --prefer-dist --no-ansi --no-scripts
-
-# Устанавливаем зависимости Composer (используем кеш)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts --no-progress --no-ansi
-
-# Копируем оставшийся код проекта
 COPY . /var/www
 
-# Создаем директории, если они не существуют
-RUN mkdir -p /var/www/storage /var/www/bootstrap/cache
+RUN composer install \
+    && mkdir -p /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www
 
-# Устанавливаем правильные права на директории
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-
-# Устанавливаем рабочую директорию в контейнере
-WORKDIR /var/www/html
-
-# Веб-сервер будет работать от имени пользователя www-data
-USER www-data
+# Запускаем supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
