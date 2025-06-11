@@ -51,7 +51,7 @@ class UserController extends Controller
         return response([
             "success" => true,
             "message" => "Success",
-            "user" => $user
+            "data" => $user
         ]);
     }
 

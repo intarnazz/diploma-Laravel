@@ -33,7 +33,7 @@ Route::middleware('auth:api')->group(function () {
 //        Route::get('/{chat}', [ChatController::class, 'get']);
         Route::get('/', [ChatController::class, 'all']);
     });
-    Route::prefix('/massage')->group(function () {
+    Route::prefix('/message')->group(function () {
         Route::get('/{chat_id}', [MassageController::class, 'all']);
         Route::post('/', [MassageController::class, 'add']);
     });

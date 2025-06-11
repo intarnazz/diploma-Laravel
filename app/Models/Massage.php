@@ -35,11 +35,11 @@ class Massage extends Model
 
     public static function pagin(Request $request, $chat_id)
     {
-        $limit = $request->limit ?? 3;
-        $offset = $request->offset ?? 0;
+        $limit = $request->header('limit') ?? 3;
+        $offset = $request->header('offset') ?? 0;
 
         $data = self::where('chat_id', $chat_id)
-            ->orderByDesc('id')
+            ->orderBy('id')
             ->offset($offset)
             ->limit($limit)
             ->get();
