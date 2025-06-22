@@ -32,11 +32,7 @@ class Massage extends Model
         }
         $request['user_id'] = Auth::id();
         $data = Massage::create($request);
-        event(new ChatMessageSent(
-            $request['content'],
-            Auth::id(),
-            $request['chat_id']
-        ));
+        event(new ChatMessageSent($data));
 
         return $data;
     }

@@ -15,15 +15,13 @@ class ChatMessageSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $content;
-    public $senderId;
+    public $data;
     public $chatId;
 
-    public function __construct($content, $senderId, $chatId)
+    public function __construct($data)
     {
-        $this->content = $content;
-        $this->senderId = $senderId;
-        $this->chatId = $chatId;
+        $this->data = $data;
+        $this->chatId = $data->chat_id; // или где у тебя лежит ID чата
     }
 
     public function broadcastOn()
@@ -33,11 +31,7 @@ class ChatMessageSent implements ShouldBroadcastNow
 
     public function broadcastWith()
     {
-        return [
-            'content' => $this->content,
-            'sender_id' => $this->senderId,
-            'chat_id' => $this->chatId,
-        ];
+        return  $this->data->toArray();
     }
 }
 
