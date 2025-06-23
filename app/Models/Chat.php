@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Chat extends Model
 {
     protected $guarded = ['id'];
-    protected $with = ['user'];
+    protected $with = ['user', 'latestMassage'];
 
     public function user()
     {
@@ -38,8 +38,7 @@ class Chat extends Model
             ? self::query()
             : self::where('user_id', $user->id);
 
-        $q = $q->with('latestMassage')
-            ->orderByDesc('created_at')
+        $q = $q->orderByDesc('created_at')
             ->limit($limit = $request->header('limit', 20))
             ->offset($offset = $request->header('offset', 0));
 

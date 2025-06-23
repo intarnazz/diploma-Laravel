@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ChatMessageSent;
+use App\Events\ChatStatusChange;
 use App\Events\PrivateEve;
 use App\Http\Requests\MassageRequest;
 use Illuminate\Database\Eloquent\Model;
@@ -39,15 +40,24 @@ class Massage extends Model
 
     public static function pagin(Request $request, $chat_id)
     {
-        $limit = $request->header('limit') ?? 3;
-        $offset = $request->header('offset') ?? 0;
-
-        $data = self::where('chat_id', $chat_id)
-            ->orderBy('id')
-            ->offset($offset)
-            ->limit($limit)
-            ->get();
-
-        return [$data, [$limit, $offset, self::count()]];
+        $chat = Chat::where('id', $chat_id)->first();
+        $chat->update(['status' => 'Просмотрено']);
+        $chat->save();
+        event(new ChatStatusChange($chat));
+        return [
+            ($data = self::where('chat_id', $chat_id)
+                ->orderBy('id')
+                ->offset(
+                    $request
+                        ->header('offset') ?? 0
+                )
+                ->limit($request->header('limit') ?? 3)
+                ->get()
+            ),
+            [
+                ($limit = $request->header('limit') ?? 3),
+                ($offset = $request->header('offset') ?? 0), self::count()
+            ],
+        ];
     }
 }
