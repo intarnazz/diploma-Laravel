@@ -25,10 +25,25 @@ class Chat extends Model
     {
         return $this->hasOne(Massage::class)->latest('id');
     }
+    protected static function getStatus($chat_id, $status)
+    {
+        $chat = self::where('id', $chat_id)->first();
+        $chat->update(['status' => $status]);
+        $chat->save();
+        return $chat;
+    }
+    public static function statusViewed($chat_id)
+    {
+        return self::getStatus($chat_id, 'viewed');
+    }
+    public static function statusNew($chat_id)
+    {
+        return self::getStatus($chat_id, 'new');
+    }
 
     public static function add()
     {
-        return Chat::create(['user_id' => Auth::id()]);
+        return self::create(['user_id' => Auth::id()]);
     }
 
     public static function pagin(Request $request)

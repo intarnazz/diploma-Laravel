@@ -33,16 +33,15 @@ class Massage extends Model
         }
         $request['user_id'] = Auth::id();
         $data = Massage::create($request);
+        $chat = Chat::statusNew($request['chat_id']);
+        event(new ChatStatusChange($chat));
         event(new ChatMessageSent($data));
-
         return $data;
     }
 
     public static function pagin(Request $request, $chat_id)
     {
-        $chat = Chat::where('id', $chat_id)->first();
-        $chat->update(['status' => 'Просмотрено']);
-        $chat->save();
+        $chat = Chat::statusViewed($chat_id);
         event(new ChatStatusChange($chat));
         return [
             ($data = self::where('chat_id', $chat_id)
