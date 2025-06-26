@@ -16,8 +16,6 @@ class InquiryController extends Controller
 
     public function all(Request $request)
     {
-        return (new PaginResponse($data = Inquiry::pagin($request)))
-            ->response()
-            ->setStatusCode($data[0]->isEmpty() ? 404 : 200);
+        return new PaginResponse(Inquiry::pagin($request));
     }
 }

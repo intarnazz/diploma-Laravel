@@ -16,8 +16,6 @@ class ChatController extends Controller
 
     public function all(Request $request)
     {
-        return (new PaginResponse($data = Chat::pagin($request)))
-            ->response()
-            ->setStatusCode($data[0]->isEmpty() ? 404 : 200);
+        return new PaginResponse(Chat::pagin($request));
     }
 }

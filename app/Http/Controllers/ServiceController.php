@@ -16,8 +16,6 @@ class ServiceController extends Controller
 
     public function all(Request $request)
     {
-        return (new PaginResponse($data = Service::pagin($request)))
-            ->response()
-            ->setStatusCode($data[0]->isEmpty() ? 404 : 200);
+        return new PaginResponse(Service::pagin($request));
     }
 }

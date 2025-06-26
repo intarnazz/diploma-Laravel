@@ -15,9 +15,7 @@ class MassageController extends Controller
 {
     public function all(Request $request, $chat_id)
     {
-        return (new PaginResponse($data = Massage::pagin($request, $chat_id)))
-            ->response()
-            ->setStatusCode($data[0]->isEmpty() ? 404 : 200);
+        return new PaginResponse(Massage::pagin($request, $chat_id));
     }
 
     public function add(MassageRequest $request)
