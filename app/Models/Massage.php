@@ -4,16 +4,12 @@ namespace App\Models;
 
 use App\Events\ChatMessageSent;
 use App\Events\ChatStatusChange;
-use App\Events\PrivateEve;
 use App\Http\Requests\MassageRequest;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Massage extends Model
+class Massage extends BaseModel
 {
-    protected $guarded = ['id'];
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -41,22 +37,7 @@ class Massage extends Model
 
     public static function pagin(Request $request, $chat_id)
     {
-        $chat = Chat::statusViewed($chat_id);
-        event(new ChatStatusChange($chat));
-        return [
-            ($data = self::where('chat_id', $chat_id)
-                ->orderBy('id')
-                ->offset(
-                    $request
-                        ->header('offset') ?? 0
-                )
-                ->limit($request->header('limit') ?? 3)
-                ->get()
-            ),
-            [
-                ($limit = $request->header('limit') ?? 3),
-                ($offset = $request->header('offset') ?? 0), self::count()
-            ],
-        ];
+        Chat::statusViewed($chat_id);
+        return self::basePagination($request, where: ['chat_id' => $chat_id]);
     }
 }

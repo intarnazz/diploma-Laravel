@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @property string|null $role
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -25,6 +28,7 @@ class User extends Authenticatable
         'phone',
         'company',
         'password',
+        'role',
     ];
     /**
      * The attributes that should be hidden for serialization.

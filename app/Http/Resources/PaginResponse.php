@@ -17,11 +17,11 @@ class PaginResponse extends JsonResource
         return [
             'success' => true,
             'message' => 'success',
-            'data' => $this->resource ? $this->resource[0] : '',
+            'data' => $this->resource ? $this->resource['data'] : '',
             'pagingInfo' => [
-                'limit' => $this->resource[1][0],
-                'offset' => $this->resource[1][1],
-                'totalCount' => $this->resource[1][2],
+                'limit' => $this->resource['pagingInfo']['limit'],
+                'offset' => $this->resource['pagingInfo']['offset'],
+                'totalCount' => $this->resource['pagingInfo']['totalCount'],
             ],
         ];
     }

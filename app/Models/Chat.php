@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Events\ChatStatusChange;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Chat extends Model
+class Chat extends BaseModel
 {
-    protected $guarded = ['id'];
     protected $with = ['user', 'latestMassage'];
 
     public function user()
@@ -25,17 +25,21 @@ class Chat extends Model
     {
         return $this->hasOne(Massage::class)->latest('id');
     }
+
     protected static function getStatus($chat_id, $status)
     {
         $chat = self::where('id', $chat_id)->first();
         $chat->update(['status' => $status]);
         $chat->save();
+        event(new ChatStatusChange($chat));
         return $chat;
     }
+
     public static function statusViewed($chat_id)
     {
         return self::getStatus($chat_id, 'viewed');
     }
+
     public static function statusNew($chat_id)
     {
         return self::getStatus($chat_id, 'new');
@@ -49,18 +53,6 @@ class Chat extends Model
     public static function pagin(Request $request)
     {
         $user = Auth::user();
-        $q = $user->role === 'admin'
-            ? self::query()
-            : self::where('user_id', $user->id);
-
-        $q = $q->orderByDesc('created_at')
-            ->limit($limit = $request->header('limit', 20))
-            ->offset($offset = $request->header('offset', 0));
-
-        return [
-            $q->get(),
-            [$limit, $offset, (clone $q)->count()]
-        ];
+        return self::basePagination($request, where: ['user_id' => $user->id], orderByDesc: 'created_at');
     }
-
 }
