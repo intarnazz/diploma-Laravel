@@ -16,7 +16,7 @@ class ErrorResponse extends JsonResource
     {
         return [
             'success' => false,
-            'massage' => $this->resource['massage'],
+            'message' => $this->resource['message'],
             'data' => '',
         ];
     }

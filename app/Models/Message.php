@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Events\ChatMessageSent;
 use App\Events\ChatStatusChange;
-use App\Http\Requests\MassageRequest;
+use App\Http\Requests\MessageRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Massage extends BaseModel
+class Message extends BaseModel
 {
     public function user()
     {
@@ -20,7 +20,7 @@ class Massage extends BaseModel
         return $this->belongsTo(Chat::class);
     }
 
-    public static function add(MassageRequest $request)
+    public static function add(MessageRequest $request)
     {
         $request = $request->validated();
         if (empty($request['chat_id'])) {
@@ -28,7 +28,7 @@ class Massage extends BaseModel
             $request['chat_id'] = $chat->id;
         }
         $request['user_id'] = Auth::id();
-        $data = Massage::create($request);
+        $data = Message::create($request);
         $chat = Chat::statusNew($request['chat_id']);
         event(new ChatStatusChange($chat));
         event(new ChatMessageSent($data));

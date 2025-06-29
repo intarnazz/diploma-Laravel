@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MassageRequest;
+use App\Http\Requests\MessageRequest;
 use App\Http\Resources\PaginResponse;
 use App\Http\Resources\SuccessResponse;
 use App\Models\Chat;
-use App\Models\Massage;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isEmpty;
 
-class MassageController extends Controller
+class MessageController extends Controller
 {
     public function all(Request $request, $chat_id)
     {
-        return new PaginResponse(Massage::pagin($request, $chat_id));
+        return new PaginResponse(Message::pagin($request, $chat_id));
     }
 
-    public function add(MassageRequest $request)
+    public function add(MessageRequest $request)
     {
-        return new SuccessResponse(Massage::add($request));
+        return new SuccessResponse(Message::add($request));
     }
 }

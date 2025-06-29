@@ -9,21 +9,28 @@ use Illuminate\Support\Facades\Auth;
 
 class Chat extends BaseModel
 {
-    protected $with = ['user', 'latestMassage'];
+    protected $with = ['user', 'latestMessage', 'viewedMessage'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function massage()
+    public function message()
     {
-        return $this->hasMany(Massage::class);
+        return $this->hasMany(Message::class);
     }
 
-    public function latestMassage()
+    public function viewedMessage()
     {
-        return $this->hasOne(Massage::class)->latest('id');
+        return $this->hasOne(ViewedMessage::class, 'chat_id', 'id')
+            ->where('user_id', auth()->id());
+    }
+
+
+    public function latestMessage()
+    {
+        return $this->hasOne(Message::class)->latest('id');
     }
 
     protected static function getStatus($chat_id, $status)

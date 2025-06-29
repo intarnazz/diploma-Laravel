@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\InquiryController;
-use App\Http\Controllers\MassageController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
@@ -38,8 +38,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [ChatController::class, 'all']);
     });
     Route::prefix('/message')->group(function () {
-        Route::get('/{chat_id}', [MassageController::class, 'all']);
-        Route::post('/', [MassageController::class, 'add']);
+        Route::get('/{chat_id}', [MessageController::class, 'all']);
+        Route::post('/', [MessageController::class, 'add']);
     });
 });
 

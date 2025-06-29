@@ -49,7 +49,6 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
-
         return response([
             "success" => true,
             "message" => "Success",

@@ -51,15 +51,15 @@ class BaseModel extends Model
 
         $totalCount = $query->count();
 
-        $query
-            ->offset($offset)
-            ->limit($limit);
-
         if ($orderByDesc !== '') {
             $query->orderByDesc($orderByDesc);
         } else {
             $query->orderBy('id');
         }
+
+        $query
+            ->offset($offset)
+            ->limit($limit);
 
         $data = $query->get();
 

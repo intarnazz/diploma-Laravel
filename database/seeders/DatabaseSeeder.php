@@ -61,10 +61,15 @@ class DatabaseSeeder extends Seeder
             $chat = \App\Models\Chat::create([
                 'user_id' => $user->id,
             ]);
-            \App\Models\Massage::create([
+            $message = \App\Models\Message::create([
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
                 'content' => $faker->text(25),
+            ]);
+            \App\Models\ViewedMessage::create([
+                'user_id' => $user->id,
+                'chat_id' => $chat->id,
+                'message_id' => $message->id,
             ]);
         }
     }
