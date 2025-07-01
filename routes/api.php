@@ -34,11 +34,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::prefix('/chat')->group(function () {
-//        Route::get('/{chat}', [ChatController::class, 'get']);
+        Route::get('/{chat}', [ChatController::class, 'get']);
         Route::get('/', [ChatController::class, 'all']);
     });
     Route::prefix('/message')->group(function () {
-        Route::get('/{chat_id}', [MessageController::class, 'all']);
+        Route::get('/{chat}', [MessageController::class, 'all']);
         Route::post('/', [MessageController::class, 'add']);
     });
 });

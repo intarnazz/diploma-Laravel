@@ -18,6 +18,14 @@ class ViewedMessage extends Model
     ];
     protected $appends = ['countNotViewed'];
 
+    public static function patch(Chat $chat)
+    {
+        return ViewedMessage::updateOrCreate(
+            ['user_id' => auth()->id(), 'chat_id' => $chat->id], // условия поиска
+            ['message_id' => $chat->latestMessage->id]
+        );
+    }
+
     public function getCountNotViewedAttribute()
     {
         return Message::where('chat_id', $this->chat_id)

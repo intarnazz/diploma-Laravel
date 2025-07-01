@@ -28,16 +28,20 @@ class Message extends BaseModel
             $request['chat_id'] = $chat->id;
         }
         $request['user_id'] = Auth::id();
-        $data = Message::create($request);
-        $chat = Chat::statusNew($request['chat_id']);
+        $message = Message::create($request);
+        if (empty($chat)) {
+            $chat = Chat::find($message->chat_id);
+        }
+        ViewedMessage::patch($chat);
         event(new ChatStatusChange($chat));
-        event(new ChatMessageSent($data));
-        return $data;
+        event(new ChatMessageSent($message));
+        return $message;
     }
 
-    public static function pagin(Request $request, $chat_id)
+    public static function pagin(Request $request, Chat $chat)
     {
-        Chat::statusViewed($chat_id);
-        return self::basePagination($request, where: ['chat_id' => $chat_id]);
+        ViewedMessage::patch($chat);
+        event(new ChatStatusChange($chat));
+        return self::basePagination($request, where: ['chat_id' => $chat->id]);
     }
 }

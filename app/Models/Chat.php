@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Chat extends BaseModel
 {
-    protected $with = ['user', 'latestMessage', 'viewedMessage'];
+    protected $with = ['user', 'latestMessage'];
+    protected $appends = ['viewedMessage'];
 
     public function user()
     {
@@ -27,29 +28,9 @@ class Chat extends BaseModel
             ->where('user_id', auth()->id());
     }
 
-
     public function latestMessage()
     {
         return $this->hasOne(Message::class)->latest('id');
-    }
-
-    protected static function getStatus($chat_id, $status)
-    {
-        $chat = self::where('id', $chat_id)->first();
-        $chat->update(['status' => $status]);
-        $chat->save();
-        event(new ChatStatusChange($chat));
-        return $chat;
-    }
-
-    public static function statusViewed($chat_id)
-    {
-        return self::getStatus($chat_id, 'viewed');
-    }
-
-    public static function statusNew($chat_id)
-    {
-        return self::getStatus($chat_id, 'new');
     }
 
     public static function add()
@@ -61,5 +42,13 @@ class Chat extends BaseModel
     {
         $user = Auth::user();
         return self::basePagination($request, where: ['user_id' => $user->id], orderByDesc: 'created_at');
+    }
+
+    public function getViewedMessageAttribute()
+    {
+        return $this->viewedMessage()->firstOrCreate(
+            ['user_id' => auth()->id()],
+            ['chat_id' => $this->id]
+        );
     }
 }

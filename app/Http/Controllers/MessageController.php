@@ -13,9 +13,9 @@ use function PHPUnit\Framework\isEmpty;
 
 class MessageController extends Controller
 {
-    public function all(Request $request, $chat_id)
+    public function all(Request $request, Chat $chat)
     {
-        return new PaginResponse(Message::pagin($request, $chat_id));
+        return new PaginResponse(Message::pagin($request, $chat));
     }
 
     public function add(MessageRequest $request)
