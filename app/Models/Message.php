@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\ChatMessageSent;
 use App\Events\ChatStatusChange;
+use App\Events\NewChatCreate;
 use App\Http\Requests\MessageRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +30,13 @@ class Message extends BaseModel
         }
         $request['user_id'] = Auth::id();
         $message = Message::create($request);
-        if (empty($chat)) {
-            $chat = Chat::find($message->chat_id);
-        }
+        $chat = Chat::find($message->chat_id);
         ViewedMessage::patch($chat);
+        event(new NewChatCreate($chat, $chat->user_id));
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            event(new NewChatCreate($chat, $admin->id));
+        }
         event(new ChatStatusChange($chat));
         event(new ChatMessageSent($message));
         return $message;

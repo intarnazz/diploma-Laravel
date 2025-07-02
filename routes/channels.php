@@ -28,11 +28,15 @@ Broadcast::channel('chat.{chatId}', function ($user, $chatId) {
             $user->role === 'admin'
         );
 });
-
 Broadcast::channel('chat-status.{chatId}', function ($user, $chatId) {
     $chat = \App\Models\Chat::find($chatId);
     return $chat && (
             $chat->user_id === $user->id ||
             $user->role === 'admin'
         );
+});
+
+Broadcast::channel('user.{userId}.new-chat-create', function ($user, $userId) {
+    return (int)$user->id === (int)$userId ||
+        $user->role === 'admin';
 });
