@@ -14,8 +14,11 @@ class ServiceController extends Controller
         return new SuccessResponse($service);
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        return new PaginResponse(Service::pagin($request));
+        return new SuccessResponse([
+            'coatings' => Service::where('type', 'coatings')->get(),
+            'insulationOptions' => Service::where('type', 'insulationOptions')->get(),
+        ]);
     }
 }

@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Image::class)->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description');
+            $table->string('name');
             $table->integer('price');
+            $table->string('type');
             $table->timestamps();
         });
     }

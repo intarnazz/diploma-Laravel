@@ -33,6 +33,32 @@ class DatabaseSeeder extends Seeder
             'password' => 'user',
         ]);
 
+        $coatings = [
+            'Кирпич' => 1500,
+            'Штукатурка' => 1200,
+            'Сайдинг' => 1000,
+            'Керамогранит' => 1800,
+        ];
+        foreach ($coatings as $name => $price) {
+            \App\Models\Service::create([
+                'name' => $name,
+                'price' => $price,
+                'type' => 'coatings',
+            ]);
+        }
+        $insulationOptions = [
+            ['name' => 'Минеральная вата 50 мм', 'price' => 300],
+            ['name' => 'Минеральная вата 100 мм', 'price' => 500],
+            ['name' => 'Минеральная вата 150 мм', 'price' => 700],
+            ['name' => 'Минеральная вата 200 мм', 'price' => 900],
+        ];
+        foreach ($insulationOptions as $value) {
+            \App\Models\Service::create([
+                'name' => $value['name'],
+                'price' => $value['price'],
+                'type' => 'insulationOptions',
+            ]);
+        }
         $files = Storage::disk('public')->files();
         foreach ($files as $file) {
             $image = Image::create([
@@ -42,12 +68,6 @@ class DatabaseSeeder extends Seeder
                 'image_id' => $image->id,
                 'title' => $faker->title(),
                 'description' => $faker->text(200),
-            ]);
-            \App\Models\Service::create([
-                'image_id' => $image->id,
-                'title' => $faker->title(),
-                'description' => $faker->text(200),
-                'price' => $faker->numberBetween(1000, 10000),
             ]);
         }
         $inquiry = \App\Models\Inquiry::create([
