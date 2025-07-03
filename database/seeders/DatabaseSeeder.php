@@ -68,6 +68,9 @@ class DatabaseSeeder extends Seeder
                 'image_id' => $image->id,
                 'title' => $faker->title(),
                 'description' => $faker->text(200),
+                'client' => $faker->company(),
+                'completed_at' => $faker->date(),
+                'notes' => $faker->text(2000),
             ]);
         }
         $inquiry = \App\Models\Inquiry::create([
