@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ChatStatusChange;
+use App\Events\NewChatCreate;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,13 @@ class Chat extends BaseModel
 
     public static function add()
     {
-        return self::create(['user_id' => Auth::id()]);
+        $chat = self::create(['user_id' => Auth::id()]);
+        event(new NewChatCreate($chat, auth()->id()));
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            event(new NewChatCreate($chat, $admin->id));
+        }
+        return $chat;
     }
 
     public static function pagin(Request $request)

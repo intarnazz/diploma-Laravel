@@ -32,11 +32,8 @@ class Message extends BaseModel
         $message = Message::create($request);
         $chat = Chat::find($message->chat_id);
         ViewedMessage::patch($chat);
-        event(new NewChatCreate($chat, $chat->user_id));
-        $admins = User::where('role', 'admin')->get();
-        foreach ($admins as $admin) {
-            event(new NewChatCreate($chat, $admin->id));
-        }
+        $chat->setUpdatedAt(now());
+        $chat->save();
         event(new ChatStatusChange($chat));
         event(new ChatMessageSent($message));
         return $message;
