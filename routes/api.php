@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GuestQueryController;
 use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::routes(['middleware' => ['auth:api']]);
@@ -40,6 +41,11 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/message')->group(function () {
         Route::get('/{chat}', [MessageController::class, 'all']);
         Route::post('/', [MessageController::class, 'add']);
+    });
+    Route::prefix('/guest-query')->group(function () {
+        Route::get('/{guestQuery}', [GuestQueryController::class, 'get']);
+        Route::post('/', [GuestQueryController::class, 'add']);
+        Route::get('/', [GuestQueryController::class, 'all']);
     });
 });
 

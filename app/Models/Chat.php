@@ -48,7 +48,7 @@ class Chat extends BaseModel
     public static function pagin(Request $request)
     {
         $user = Auth::user();
-        return self::basePagination($request, where: ['user_id' => $user->id], orderByDesc: 'created_at');
+        return self::basePagination($request, where: ['user_id' => $user->id], orderByDesc: 'updated_at');
     }
 
     public function getViewedMessageAttribute()

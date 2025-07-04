@@ -12,12 +12,14 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('quest_contexts', function (Blueprint $table) {
+        Schema::create('guest_queries', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->default('Гость')->nullable();
-            $table->string('email')->default('guest@example.com')->nullable();
-            $table->string('phone')->default('Не указан')->nullable();
-            $table->string('company')->default('Без компании')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('company')->nullable();
+            $table->string('description')->nullable();
+            $table->string('content', 2000);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('quest_contexts');
+        Schema::dropIfExists('guest_queries');
     }
 };

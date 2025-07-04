@@ -95,5 +95,13 @@ class DatabaseSeeder extends Seeder
                 'message_id' => $message->id,
             ]);
         }
+        \App\Models\GuestQuery::create([
+            'name' => $faker->name(),
+            'email' => $faker->email(),
+            'phone' => $faker->phoneNumber(),
+            'company' => $faker->company(),
+            'description' => $faker->text(200),
+            'content' => $faker->text(2000),
+        ]);
     }
 }
