@@ -29,8 +29,12 @@ Route::prefix('/service')->group(function () {
     Route::get('/{service}', [ServiceController::class, 'get']);
     Route::get('/', [ServiceController::class, 'all']);
 });
+Route::prefix('/guest-query')->group(function () {
+    Route::post('/', [GuestQueryController::class, 'add']);
+});
+
+// AUTHORIZATION = AUTHORIZATION = AUTHORIZATION = AUTHORIZATION
 Route::middleware('auth:api')->group(function () {
-//    Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/profile', [UserController::class, 'profile']);
     Route::post('/logout', [UserController::class, 'logout']);
 
@@ -44,7 +48,6 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::prefix('/guest-query')->group(function () {
         Route::get('/{guestQuery}', [GuestQueryController::class, 'get']);
-        Route::post('/', [GuestQueryController::class, 'add']);
         Route::get('/', [GuestQueryController::class, 'all']);
     });
 });
