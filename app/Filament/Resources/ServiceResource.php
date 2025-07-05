@@ -38,32 +38,34 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('price')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('type')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->sortable()
+                    ->dateTime()->searchable(),
+//                Tables\Columns\TextColumn::make('updated_at')
+//                    ->dateTime(),
             ])
+            ->defaultSort('type', 'desc')
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -71,5 +73,5 @@ class ServiceResource extends Resource
             'create' => Pages\CreateService::route('/create'),
             'edit' => Pages\EditService::route('/{record}/edit'),
         ];
-    }    
+    }
 }

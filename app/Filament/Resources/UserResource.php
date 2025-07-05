@@ -24,22 +24,23 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->disabled()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->disabled()
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    ->disabled()
                     ->tel()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company')
+                    ->disabled()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('role')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
+                    ->disabled()
                     ->maxLength(255),
             ]);
     }
@@ -62,20 +63,22 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -83,5 +86,5 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
-    }    
+    }
 }
