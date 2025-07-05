@@ -25,9 +25,9 @@ class GuestQueryRequest extends FormRequest
             "name" => "nullable",
             "email" => "nullable|email",
             "phone" => "nullable",
-            "company" => "nullable",
-            "description" => "nullable",
-            "content" => "required|max:2000",
+            "company" => "required",
+            "description" => "required",
+            "content" => "nullable|max:2000",
         ];
     }
 
