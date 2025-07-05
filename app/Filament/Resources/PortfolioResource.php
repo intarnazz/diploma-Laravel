@@ -18,6 +18,7 @@ use Filament\Forms\Components\ViewField;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 
+
 class PortfolioResource extends Resource
 {
     protected static ?string $model = Portfolio::class;
@@ -44,7 +45,7 @@ class PortfolioResource extends Resource
                     ->image()
                     ->visibility('public')
                     ->dehydrated(false)
-                    ->required()
+//                    ->required()
                     ->afterStateUpdated(function ($state, callable $set) {
                         if ($state instanceof \Livewire\TemporaryUploadedFile) {
                             $storedPath = $state->store('', 'public');
@@ -64,7 +65,9 @@ class PortfolioResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('completed_at'),
                 Forms\Components\Textarea::make('notes')
-                    ->maxLength(65535),
+                    ->maxLength(65535)
+                    ->rows(20)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -79,17 +82,21 @@ class PortfolioResource extends Resource
                         'height' => 150,
                     ])
                     ->view('filament.components.image-preview'),
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('client'),
-                Tables\Columns\TextColumn::make('completed_at')
-                    ->date(),
-                Tables\Columns\TextColumn::make('notes'),
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')->extraAttributes([
+                    'style' => 'text-wrap: auto;',
+                ])->searchable(),
+//                Tables\Columns\TextColumn::make('client'),
+//                Tables\Columns\TextColumn::make('completed_at')
+//                    ->date(),
+//                Tables\Columns\TextColumn::make('notes'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()->searchable()->sortable(),
+//                Tables\Columns\TextColumn::make('updated_at')
+//                    ->dateTime(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

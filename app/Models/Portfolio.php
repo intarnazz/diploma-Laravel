@@ -9,6 +9,11 @@ class Portfolio extends BaseModel
 {
     protected $with = ['image'];
 
+    public function getGlobalSearchResultTitle(): string
+    {
+        return $this->title;
+    }
+
     public function image()
     {
         return $this->belongsTo(Image::class);
