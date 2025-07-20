@@ -9,11 +9,11 @@ services:
         volumes:
             - app-data:/var/www
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-            - ./storage:/var/www/storage
-            - ./app:/var/www/app
-            - ./resources:/var/www/resources
-            - ./routes:/var/www/routes
-            - ./database:/var/www/database
+            - app-storage:/var/www/storage
+            - app-app:/var/www/app
+            - app-resources:/var/www/resources
+            - app-routes:/var/www/routes
+            - app-database:/var/www/database
         ports:
             - "6001:6001"
         networks:
