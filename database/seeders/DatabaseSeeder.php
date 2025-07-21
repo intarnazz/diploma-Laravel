@@ -60,26 +60,23 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         $files = Storage::disk('public')->files();
-        foreach ($files as $file) {
-            $image = Image::create([
-                'path' => $file,
-            ]);
-            \App\Models\Portfolio::create([
-                'image_id' => $image->id,
-                'title' => $faker->title(),
-                'description' => $faker->text(200),
-                'client' => $faker->company(),
-                'completed_at' => $faker->date(),
-                'notes' => $faker->text(2000),
-            ]);
+
+        for ($i = 0; $i < 3; $i++) {
+            foreach ($files as $file) {
+                $image = Image::create([
+                    'path' => $file,
+                ]);
+                \App\Models\Portfolio::create([
+                    'image_id' => $image->id,
+                    'title' => $faker->title(),
+                    'description' => $faker->text(200),
+                    'client' => $faker->company(),
+                    'completed_at' => $faker->date(),
+                    'notes' => $faker->text(2000),
+                ]);
+            }
         }
-        $inquiry = \App\Models\Inquiry::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $faker->phoneNumber(),
-            'company' => $faker->company(),
-            'message' => 'помогите помогите',
-        ]);
+
         for ($i = 0; $i < 5; $i++) {
             $chat = \App\Models\Chat::create([
                 'user_id' => $user->id,

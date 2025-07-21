@@ -21,7 +21,7 @@ class ViewedMessage extends Model
     public static function patch(Chat $chat)
     {
         return ViewedMessage::updateOrCreate(
-            ['user_id' => auth()->id(), 'chat_id' => $chat->id], // условия поиска
+            ['user_id' => auth()->id(), 'chat_id' => $chat->id],
             ['message_id' => $chat->latestMessage->id]
         );
     }
