@@ -16,10 +16,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('phone', 30)->nullable();
             $table->string('company');
             $table->string('description');
-            $table->string('content', 2000)->nullable();
+            $table->text('content', 2000)->nullable();
             $table->timestamps();
         });
     }

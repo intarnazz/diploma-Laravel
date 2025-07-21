@@ -36,6 +36,7 @@ Route::prefix('/guest-query')->group(function () {
 // AUTHORIZATION = AUTHORIZATION = AUTHORIZATION = AUTHORIZATION
 Route::middleware('auth:api')->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
+    Route::post('/profile/update', [UserController::class, 'reg']);
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::prefix('/chat')->group(function () {

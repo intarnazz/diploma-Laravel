@@ -22,12 +22,12 @@ class GuestQueryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "nullable",
-            "email" => "nullable|email",
-            "phone" => "nullable",
-            "company" => "required",
-            "description" => "required",
-            "content" => "nullable|max:2000",
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:30',
+            'company' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'content' => 'nullable|string|max:2000',
         ];
     }
 
@@ -35,8 +35,8 @@ class GuestQueryRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (empty($this->email) && empty($this->phone)) {
-                $validator->errors()->add('email', 'Either email or phone must be provided.');
-                $validator->errors()->add('phone', 'Either phone or email must be provided.');
+                $validator->errors()->add('email', 'Вы должны указать либо почту - либо телефон');
+                $validator->errors()->add('phone', '');
             }
         });
     }

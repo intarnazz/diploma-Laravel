@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest
 {
@@ -21,12 +22,20 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = auth()->check() ? auth()->id() : null;
+
         return [
-            "email" => "required|email|unique:users",
-            "name" => "required",
-            "phone" => "required",
-            "company" => "required",
-            "password" => "required",
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'string',
+                Rule::unique('users')->ignore($userId),
+            ],
+            'name' => 'required|max:255|string',
+            'phone' => 'required|max:30|string',
+            'company' => 'required|max:255|string',
+            'password' => 'required|max:255|string|min:3',
         ];
     }
 }

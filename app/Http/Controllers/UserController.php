@@ -14,13 +14,15 @@ class UserController extends Controller
 {
     public function reg(RegisterRequest $request)
     {
-        $user = User::create($request->validated());
+        $user = User::updateOrCreate(
+            ['email' => $request->email],
+            $request->validated());
         $user->api_token = (string)Str::uuid();
         $user->save();
 
         return response([
             "success" => true,
-            "message" => "Success",
+            "message" => "Успешно",
             "token" => $user->api_token,
         ]);
     }
@@ -31,8 +33,8 @@ class UserController extends Controller
         if (!$user) {
             return response([
                 "success" => false,
-                "message" => "Login failed",
-            ], 401);
+                "message" => "Неверный логин или пароль",
+            ], 422);
         }
 
         $user = auth()->user();
@@ -41,7 +43,7 @@ class UserController extends Controller
 
         return response([
             "success" => true,
-            "message" => "Success",
+            "message" => "Успешно",
             "token" => $user->api_token
         ]);
     }
@@ -51,7 +53,7 @@ class UserController extends Controller
         $user = Auth::user();
         return response([
             "success" => true,
-            "message" => "Success",
+            "message" => "Успешно",
             "data" => $user
         ]);
     }
