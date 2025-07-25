@@ -14,9 +14,7 @@ class UserController extends Controller
 {
     public function reg(RegisterRequest $request)
     {
-        $user = User::updateOrCreate(
-            ['email' => $request->email],
-            $request->validated());
+        $user = User::create($request->validated());
         $user->api_token = (string)Str::uuid();
         $user->save();
 
