@@ -10,6 +10,7 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GuestQueryController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::routes(['middleware' => ['auth:api']]);
@@ -31,6 +32,10 @@ Route::prefix('/service')->group(function () {
 });
 Route::prefix('/guest-query')->group(function () {
     Route::post('/', [GuestQueryController::class, 'add']);
+});
+Route::prefix('/contact')->group(function () {
+    Route::get('/', [ContactController::class, 'all']);
+    Route::patch('/', [ContactController::class, 'patch']);
 });
 
 // AUTHORIZATION = AUTHORIZATION = AUTHORIZATION = AUTHORIZATION

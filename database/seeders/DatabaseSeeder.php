@@ -100,5 +100,20 @@ class DatabaseSeeder extends Seeder
             'description' => $faker->text(200),
             'content' => $faker->text(2000),
         ]);
+        \App\Models\Contact::create([
+            'name' => 'mail',
+            'description' => 'ksm@mail.ru',
+            'linc' => 'ksm@mail.ru',
+        ]);
+        \App\Models\Contact::create([
+            'name' => 'vk',
+            'description' => 'КСМ',
+            'linc' => 'https://vk.com/ksm',
+        ]);
+        \App\Models\Contact::create([
+            'name' => 'phone',
+            'description' => '+7 911 613 71 27',
+            'linc' => '+79116137127',
+        ]);
     }
 }
