@@ -18,11 +18,12 @@ services:
               source: ./.env
               target: /var/www/.env
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-            - app-storage:/var/www/storage
+            - ./storage:/var/www/storage
             - ./app:/var/www/app
             - app-resources:/var/www/resources
             - ./routes:/var/www/routes
             - ./database:/var/www/database
+            - ./lang:/var/www/lang
         ports:
             - "6001:6001"
         networks:
@@ -73,6 +74,8 @@ networks:
 
 volumes:
     app-data:
+        driver: local
+    app-lang:
         driver: local
     dbdata:
         driver: local

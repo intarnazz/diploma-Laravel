@@ -15,11 +15,9 @@ return new class extends Migration {
             $table->foreignIdFor(\App\Models\Image::class)->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('description');
-
-            // Новые поля
-            $table->string('client')->nullable();         // Клиент
-            $table->date('completed_at')->nullable();     // Дата завершения
-            $table->text('notes')->nullable();            // Дополнительные заметки
+            $table->string('client')->nullable();
+            $table->string('completed_at')->nullable();
+            $table->text('notes')->nullable();
 
 
             $table->timestamps();
