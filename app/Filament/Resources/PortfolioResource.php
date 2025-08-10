@@ -63,9 +63,9 @@ class PortfolioResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('client')
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('completed_at'),
+                Forms\Components\TextInput::make('completed_at'),
                 Forms\Components\Textarea::make('notes')
-                    ->maxLength(65535)
+                    ->maxLength(2000)
                     ->rows(20)
                     ->columnSpanFull(),
             ]);
