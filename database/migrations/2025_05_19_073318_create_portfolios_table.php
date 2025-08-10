@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('description');
             $table->string('client')->nullable();
-            $table->date('completed_at')->nullable();
+            $table->string('completed_at')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });
