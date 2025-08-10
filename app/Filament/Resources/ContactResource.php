@@ -19,17 +19,36 @@ class ContactResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    // Перевод меток ресурса
+    public static function getLabel(): ?string
+    {
+        return __('Contact'); // Ключ перевода для единственного числа
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Contacts'); // Ключ перевода для множественного числа
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Contacts'); // Ключ перевода для навигации
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Name')) // Используем ключ перевода
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
+                    ->label(__('Description')) // Используем ключ перевода
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
+                    ->label(__('Link')) // Используем ключ перевода
                     ->required()
                     ->maxLength(255),
             ]);
@@ -39,18 +58,15 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('link'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name')), // Перевод столбца
+                Tables\Columns\TextColumn::make('description')
+                    ->label(__('Description')), // Перевод столбца
+                Tables\Columns\TextColumn::make('link')
+                    ->label(__('Link')), // Перевод столбца
             ])
             ->filters([
                 //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

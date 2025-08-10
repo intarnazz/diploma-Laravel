@@ -19,16 +19,35 @@ class ServiceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    // Перевод меток ресурса
+    public static function getLabel(): ?string
+    {
+        return __('Service'); // Единственное число
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Services'); // Множественное число
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Services'); // Метка в навигации
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Name')) // Перевод для поля "Название"
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
+                    ->label(__('Price')) // Перевод для поля "Цена"
                     ->required(),
                 Forms\Components\TextInput::make('type')
+                    ->label(__('Type')) // Перевод для поля "Тип"
                     ->required()
                     ->maxLength(255),
             ]);
@@ -38,13 +57,23 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('price')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('type')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->sortable()
-                    ->dateTime()->searchable(),
-//                Tables\Columns\TextColumn::make('updated_at')
-//                    ->dateTime(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name')) // Перевод для столбца "Название"
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->label(__('Price')) // Перевод для столбца "Цена"
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label(__('Type')) // Перевод для столбца "Тип"
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Created At')) // Перевод для столбца "Дата создания"
+                    ->dateTime()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->defaultSort('type', 'desc')
             ->filters([
@@ -55,7 +84,7 @@ class ServiceResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
             ]);
     }
 

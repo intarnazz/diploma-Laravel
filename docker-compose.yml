@@ -19,6 +19,8 @@ services:
               target: /var/www/.env
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
             - ./storage:/var/www/storage
+            - ./config:/var/www/config
+            - ./config:/var/www/config
             - ./app:/var/www/app
             - app-resources:/var/www/resources
             - ./routes:/var/www/routes
@@ -89,3 +91,6 @@ volumes:
         driver: local
     app-database:
         driver: local
+    app-config:
+        driver: local
+
