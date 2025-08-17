@@ -31,7 +31,7 @@ class ChatMessageSent implements ShouldBroadcastNow
 
     public function broadcastWith()
     {
-        return  $this->data->toArray();
+        return $this->data->toArray();
     }
 }
 

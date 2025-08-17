@@ -128,17 +128,32 @@ class DatabaseSeeder extends Seeder
             'content' => $faker->text(2000),
         ]);
         \App\Models\Contact::create([
-            'name' => 'mail',
-            'description' => 'ksm@mail.ru',
-            'link' => 'ksm@mail.ru',
+            'name' => 'mail_sale',
+            'description' => 'sale@ksmspb.ru',
+            'link' => 'sale@ksmspb.ru',
         ]);
         \App\Models\Contact::create([
-            'name' => 'vk',
-            'description' => 'КСМ',
-            'link' => 'https://vk.com/ksm',
+            'name' => 'mail_snab',
+            'description' => 'snab.mpspb@gmail.com',
+            'link' => 'snab.mpspb@gmail.com',
         ]);
         \App\Models\Contact::create([
-            'name' => 'phone',
+            'name' => 'telegram',
+            'description' => 'ksm_spbbot',
+            'link' => 'https://t.me/ksm_spbbot',
+        ]);
+        \App\Models\Contact::create([
+            'name' => 'whatsapp',
+            'description' => '+7 921 024 99 97',
+            'link' => 'https://wa.me/79210249997',
+        ]);
+        \App\Models\Contact::create([
+            'name' => 'phone_snab',
+            'description' => '+7 911 618 94 06',
+            'link' => '+79116137127',
+        ]);
+        \App\Models\Contact::create([
+            'name' => 'phone_sale',
             'description' => '+7 911 613 71 27',
             'link' => '+79116137127',
         ]);
