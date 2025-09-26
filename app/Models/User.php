@@ -8,11 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Filament\Models\Contracts\FilamentUser;
 
 /**
  * @property string|null $role
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -30,6 +31,18 @@ class User extends Authenticatable
         'password',
         'role',
     ];
+
+    public function canAccessFilament(): bool
+    {
+        if (auth()->check() && $this->role === 'admin') {
+            return true;
+        }
+
+        \Illuminate\Support\Facades\Auth::logout();
+        session()->flush();
+        return false;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
