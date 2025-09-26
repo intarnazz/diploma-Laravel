@@ -26,23 +26,21 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Filament::serving(function () {
-            // Получаем текущий путь из запроса
             $path = request()->path();
-//http://localhost:8000/livewire/message/filament.core.auth.login
-            // Разрешаем доступ к странице логина Filament без проверки роли
-            if ($path === 'admin/login'
+
+            if (
+                $path === 'admin/login'
                 || $path === 'admin/logout'
                 || $path === 'livewire/message/filament.core.auth.login'
+                || str_starts_with($path, 'filament/assets')
             ) {
                 return;
             }
 
-            // Проверяем аутентификацию и роль для всех остальных страниц админки
             if (!auth()->check() || auth()->user()->role !== 'admin') {
                 auth()->logout();
                 abort(403);
             }
         });
     }
-
 }
