@@ -8,8 +8,8 @@
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>КСМ</title>
-    <script type="module" crossorigin src="/assets/index-5FYxfXnX.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DnE2cVin.css">
+    <script type="module" crossorigin src="/assets/index-CjjlTkl2.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C6itaKm9.css">
 </head>
 <body>
 <div id="app"></div>
